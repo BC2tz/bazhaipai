@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "JetBrains Mono", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", monospace;
+  --font-serif: "JetBrains Mono", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-display: "JetBrains Mono", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  
+  --color-endfield-orange: #FF5C00;
+  --color-endfield-black: #0A0A0A;
+  --color-endfield-gray: #E5E5E5;
+  --color-endfield-dark-gray: #1F1F1F;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F0F0F0] text-[#0A0A0A] overflow-hidden;
+    font-family: "JetBrains Mono", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+}
+
+@layer components {
+  .ef-box {
+    @apply relative border border-[#0A0A0A]/20 bg-white;
+  }
+  
+  .ef-bracket {
+    @apply absolute w-1.5 h-1.5 border-[#0A0A0A];
+  }
+  
+  .ef-label {
+    @apply text-[11px] font-mono uppercase tracking-[0.12em] text-[#666666];
+  }
+  
+  .ef-button-primary {
+    @apply bg-[#0A0A0A] text-white font-mono text-base uppercase tracking-[0.2em] px-8 py-5 border border-[#0A0A0A] hover:bg-[#FF5C00] hover:border-[#FF5C00] transition-all duration-300 active:scale-[0.98];
+  }
+  
+  .ef-title-module {
+    @apply text-xl font-black uppercase tracking-tight text-[#0A0A0A];
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #0A0A0A;
+}

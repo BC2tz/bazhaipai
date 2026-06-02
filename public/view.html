@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>八宅方案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+SC:wght@400;700;900&family=Outfit:wght@400;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;font-family:'Noto Sans SC',-apple-system,sans-serif;background:#F0F0F0}
+body{display:flex;align-items:center;justify-content:center;padding:8px}
+
+.page{width:100%;max-width:420px;height:100%;max-height:100vh;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+
+/* ── Card component: white box with border + LBrackets ── */
+.l-box{position:relative;background:#fff;border:1px solid #999;padding:10px 12px;overflow:hidden}
+.l-box .brc{position:absolute;width:7px;height:7px;pointer-events:none;z-index:2}
+.l-box .brc.tl{top:4px;left:4px;border-top:1.5px solid #0A0A0A;border-left:1.5px solid #0A0A0A}
+.l-box .brc.tr{top:4px;right:4px;border-top:1.5px solid #0A0A0A;border-right:1.5px solid #0A0A0A}
+.l-box .brc.bl{bottom:4px;left:4px;border-bottom:1.5px solid #0A0A0A;border-left:1.5px solid #0A0A0A}
+.l-box .brc.br2{bottom:4px;right:4px;border-bottom:1.5px solid #0A0A0A;border-right:1.5px solid #0A0A0A}
+
+/* ── Card title ── */
+.card-title{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.card-title .bar{width:3px;height:12px;background:#FF5C00;flex-shrink:0}
+.card-title .t{font-family:Outfit,sans-serif;font-size:11px;font-weight:900;color:#12151C;letter-spacing:.03em;text-transform:uppercase}
+.card-title .sub{font-family:'JetBrains Mono',monospace;font-size:7px;color:#999;margin-left:auto;letter-spacing:.06em}
+
+/* ── Divider inside card ── */
+.card-divider{height:1px;background:#eee;margin:0 0 6px 0}
+
+/* ── Section 1: Params ── */
+#card-params{flex-shrink:0}
+.param-body{font-family:'JetBrains Mono',monospace;font-size:10px;color:#666;display:flex;gap:10px;padding-left:10px;flex-wrap:wrap}
+.param-body .gua{color:#FF5C00;font-weight:700}
+.param-body .sep{color:#ddd}
+
+/* ── Section 2: Grid ── */
+#card-grid{flex-shrink:0}
+.grid-wrap{display:flex;flex-direction:column;align-items:center;padding:2px 0}
+.grid-song{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;letter-spacing:.15em;margin-bottom:4px}
+
+#grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:3px;width:100%;max-width:260px;aspect-ratio:1}
+.cell{position:relative;border:1.5px solid #ddd;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fafafa;overflow:hidden}
+.cell.ctr{background:#f5f5f5;border:1.5px dashed #ccc;font-size:12px;color:#999;letter-spacing:3px;font-weight:700}
+.cell img{width:85%;height:85%;object-fit:contain}
+.cell .slabel{font-size:7.5px;color:#12151C;font-weight:700;letter-spacing:1px;line-height:1;margin-top:1px}
+
+/* ── Section 3: Layout Image ── */
+#card-layout{flex:1;min-height:0;display:flex;flex-direction:column}
+#card-layout .img-box{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#card-layout .img-box img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+
+/* ── Footer ── */
+#footer{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:3px 12px;font-family:'JetBrains Mono',monospace;font-size:6.5px;color:#999;flex-wrap:wrap;gap:2px}
+#footer .pulse{color:#FF5C00;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── Button ── */
+.actions{flex-shrink:0}
+.btn{display:block;width:100%;padding:10px;background:#121212;color:#fff;font-family:Outfit,sans-serif;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.12em;border:none;cursor:pointer;transition:background .2s,transform .1s;-webkit-tap-highlight-color:transparent;user-select:none}
+.btn:active{background:#FF5C00;transform:scale(.97)}
+.btn:disabled{opacity:.5}
+</style>
+</head>
+<body>
+<div class="page" id="page">
+  <!-- ── Capture area: only these 3 cards ── -->
+  <div id="capture">
+
+    <!-- Card 1: Params -->
+    <div class="l-box" id="card-params">
+      <div class="brc tl"></div><div class="brc tr"></div><div class="brc bl"></div><div class="brc br2"></div>
+      <div class="card-title">
+        <div class="bar"></div>
+        <span class="t">方案参数 / PARAMETERS</span>
+        <span class="sub" id="subSitting">——</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="param-body">
+        <span id="pYear">——</span>
+        <span class="sep">|</span>
+        <span id="pGender">——</span>
+        <span class="sep">|</span>
+        <span class="gua" id="pGua">——</span>
+        <span class="sep">|</span>
+        <span class="gua" id="pHouse">——</span>
+      </div>
+    </div>
+
+    <!-- Card 2: Grid -->
+    <div class="l-box" id="card-grid">
+      <div class="brc tl"></div><div class="brc tr"></div><div class="brc bl"></div><div class="brc br2"></div>
+      <div class="card-title">
+        <div class="bar"></div>
+        <span class="t">九宫星盘 / STAR GRID</span>
+        <span class="sub" id="subSong">——</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="grid-wrap">
+        <div class="grid-song" id="grid-song">——</div>
+        <div id="grid"></div>
+      </div>
+    </div>
+
+    <!-- Card 3: Layout Image -->
+    <div class="l-box" id="card-layout">
+      <div class="brc tl"></div><div class="brc tr"></div><div class="brc bl"></div><div class="brc br2"></div>
+      <div class="card-title">
+        <div class="bar"></div>
+        <span class="t">养老空间方案 / SENIOR LIVING PLAN</span>
+        <span class="sub" id="subArea">——</span>
+      </div>
+      <div class="card-divider"></div>
+      <div class="img-box">
+        <img id="layoutImg" alt="养老空间方案" />
+        <div id="imgErr" style="display:none;color:#999;font-family:'JetBrains Mono',monospace;font-size:11px">※ 图片加载失败</div>
+      </div>
+    </div>
+
+  </div><!-- /capture -->
+
+  <!-- Footer -->
+  <div id="footer">
+    <span>SYS_VER: 2.2.5</span>
+    <span>BUILD: card-layout</span>
+    <span>© 2026 EIGHT_MANSIONS_LAB.</span>
+    <span class="pulse">● SYSTEM_IDLE</span>
+  </div>
+
+  <!-- Save button -->
+  <div class="actions">
+    <button class="btn" id="btnSave" onclick="saveFullImage()">保存完整方案到相册</button>
+  </div>
+</div>
+
+<script>
+var layouts = [
+ {n:'坎宅（坐北朝南）',sg:'坎五天生延绝祸六',c:[{t:'六煞',z:'六'},{t:'伏位',z:'坎',p:1},{t:'五鬼',z:'五'},{t:'祸害',z:'祸'},0,{t:'天医',z:'天'},{t:'绝命',z:'绝'},{t:'延年',z:'延'},{t:'生气',z:'生'}]},
+ {n:'离宅（坐南朝北）',sg:'离六五绝延祸生天',c:[{t:'绝命',z:'绝'},{t:'延年',z:'延'},{t:'祸害',z:'祸'},{t:'五鬼',z:'五'},0,{t:'生气',z:'生'},{t:'六煞',z:'六'},{t:'伏位',z:'离',p:1},{t:'天医',z:'天'}]},
+ {n:'震宅（坐东朝西）',sg:'震延生祸绝五天六',c:[{t:'五鬼',z:'五'},{t:'天医',z:'天'},{t:'六煞',z:'六'},{t:'绝命',z:'绝'},0,{t:'伏位',z:'震',p:1},{t:'祸害',z:'祸'},{t:'生气',z:'生'},{t:'延年',z:'延'}]},
+ {n:'巽宅（坐东南朝西北）',sg:'巽天五六祸生绝延',c:[{t:'祸害',z:'祸'},{t:'生气',z:'生'},{t:'绝命',z:'绝'},{t:'六煞',z:'六'},0,{t:'延年',z:'延'},{t:'五鬼',z:'五'},{t:'天医',z:'天'},{t:'伏位',z:'巽',p:1}]},
+ {n:'乾宅（坐西北朝东南）',sg:'乾六天五祸绝延生',c:[{t:'伏位',z:'乾',p:1},{t:'六煞',z:'六'},{t:'天医',z:'天'},{t:'生气',z:'生'},0,{t:'五鬼',z:'五'},{t:'延年',z:'延'},{t:'绝命',z:'绝'},{t:'祸害',z:'祸'}]},
+ {n:'坤宅（坐西南朝东北）',sg:'坤天延绝生祸五六',c:[{t:'延年',z:'延'},{t:'绝命',z:'绝'},{t:'生气',z:'生'},{t:'天医',z:'天'},0,{t:'祸害',z:'祸'},{t:'伏位',z:'坤',p:1},{t:'六煞',z:'六'},{t:'五鬼',z:'五'}]},
+ {n:'艮宅（坐东北朝西南）',sg:'艮六绝祸生延天五',c:[{t:'天医',z:'天'},{t:'五鬼',z:'五'},{t:'伏位',z:'艮',p:1},{t:'延年',z:'延'},0,{t:'六煞',z:'六'},{t:'生气',z:'生'},{t:'祸害',z:'祸'},{t:'绝命',z:'绝'}]},
+ {n:'兑宅（坐西朝东）',sg:'兑生祸延绝六五天',c:[{t:'生气',z:'生'},{t:'祸害',z:'祸'},{t:'延年',z:'延'},{t:'伏位',z:'兑',p:1},0,{t:'绝命',z:'绝'},{t:'天医',z:'天'},{t:'五鬼',z:'五'},{t:'六煞',z:'六'}]}
+];
+var STAR_IMG = {
+  '生气':'/assets/stars/生气.jpg', '天医':'/assets/stars/天医.jpg', '延年':'/assets/stars/延年.png',
+  '伏位':'/assets/stars/伏位.png', '祸害':'/assets/stars/祸害.png', '五鬼':'/assets/stars/五鬼.png',
+  '六煞':'/assets/stars/六煞.png', '绝命':'/assets/stars/绝命.png'
+};
+
+var p = new URLSearchParams(window.location.search);
+var img = p.get('img'), name = p.get('name')||'', year = p.get('year')||'';
+var area = p.get('area')||'', mingGua = parseInt(p.get('mingGua'))||0;
+var gender = p.get('gender')||'', sitting = p.get('sitting')||'';
+
+var guaMap={kan:'坎',kun:'坤',zhen:'震',xun:'巽',qian:'乾',dui:'兑',gen:'艮',li:'离'};
+var guaName=guaMap[sitting]||'?';
+var guaTypes=['','east','west','east','east','','west','west','west','east'];
+var mingGuaNames=['','坎','坤','震','巽','','乾','兑','艮','离'];
+var guaType=guaTypes[mingGua]||'';
+var guaTypeName=guaType==='east'?'东四命':guaType==='west'?'西四命':'——';
+var lifeGuaName=mingGuaNames[mingGua]||'';
+var genderText=gender==='male'?'男':gender==='female'?'女':'——';
+
+// Card 1: Params
+document.getElementById('pYear').textContent = year || '——';
+document.getElementById('pGender').textContent = genderText;
+document.getElementById('pGua').textContent = guaTypeName;
+document.getElementById('pHouse').textContent = (name ? (name + ' · ') : '') + (lifeGuaName ? lifeGuaName+'命' : '——');
+document.getElementById('subSitting').textContent = name || '——';
+
+// Card 3: Layout image area info
+document.getElementById('subArea').textContent = '2347:1280';
+
+// Card 2: Grid
+var layoutIdx = -1;
+for (var i=0;i<layouts.length;i++) {
+  if (layouts[i].sg.indexOf(guaName)===0) {layoutIdx=i;break;}
+}
+if (layoutIdx===-1) layoutIdx=0;
+var lay = layouts[layoutIdx];
+var songSix = lay.sg.substring(1);
+document.getElementById('grid-song').textContent = songSix;
+document.getElementById('subSong').textContent = songSix;
+
+var grid = document.getElementById('grid');
+for (var c=0;c<9;c++) {
+  var cell = document.createElement('div');
+  cell.className = 'cell';
+  if (c===4) {
+    cell.className = 'cell ctr';
+    cell.textContent = '伏位';
+  } else {
+    var cd = lay.c[c];
+    if (cd && cd!==0) {
+      var starName = cd.t;
+      var imgUrl = STAR_IMG[starName];
+      if (imgUrl) {
+        var el = document.createElement('img');
+        el.src = imgUrl; el.alt = starName;
+        cell.appendChild(el);
+      }
+      var lbl = document.createElement('div');
+      lbl.className = 'slabel';
+      lbl.textContent = starName;
+      cell.appendChild(lbl);
+    }
+  }
+  grid.appendChild(cell);
+}
+
+// Card 3: Layout Image
+var limg = document.getElementById('layoutImg');
+if (img) {
+  limg.src = decodeURIComponent(img);
+  limg.onerror = function(){limg.style.display='none';document.getElementById('imgErr').style.display='block'};
+} else {
+  document.getElementById('imgErr').style.display='block';
+  document.getElementById('imgErr').textContent='※ 缺少图片参数';
+}
+
+// ── Save: only #capture, excluding footer + button ──
+function saveFullImage() {
+  var btn = document.getElementById('btnSave');
+  btn.textContent = '生成中…'; btn.disabled = true;
+  if (typeof html2canvas==='undefined') {
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+    s.onload=function(){doCapture()};
+    document.head.appendChild(s);
+  } else { doCapture(); }
+
+  function doCapture() {
+    var el = document.getElementById('capture');
+    html2canvas(el, {backgroundColor:'#F0F0F0', scale:2, useCORS:true, allowTaint:true}).then(function(canvas){
+      canvas.toBlob(function(blob){
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = '八宅方案_'+(name||'layout')+'_'+year+'.png';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        btn.textContent = '✓ 已保存';
+        setTimeout(function(){btn.textContent='保存完整方案到相册';btn.disabled=false},2000);
+      },'image/png');
+    }).catch(function(){btn.textContent='失败，请截图';btn.disabled=false});
+  }
+}
+</script>
+</body>
+</html>
